@@ -191,7 +191,7 @@ func newTestService(t *testing.T) (*Service, *fakeBackend, string) {
 		Backend:  backend,
 		Env:      []string{"SHELL=/bin/sh", "USER=roy", "OPENAI_API_KEY=sk-secret"},
 		Hostname: func() string { return "roy-mbp.local" },
-		LookPath: func(p string) bool { return p == "/bin/sh" || p == "/bin/bash" },
+		LookPath: testLookPath,
 	})
 	return svc, backend, root
 }
@@ -229,7 +229,7 @@ func TestOpenEmitsOpenedThenDataThenExit(t *testing.T) {
 	if view.Title != "roy@roy-mbp" {
 		t.Errorf("分頁標題應該是 user@host（去掉網域），得到 %q", view.Title)
 	}
-	if view.Shell != "/bin/sh" {
+	if view.Shell != testShell() {
 		t.Errorf("shell 應該是 $SHELL，得到 %q", view.Shell)
 	}
 
@@ -243,7 +243,7 @@ func TestOpenEmitsOpenedThenDataThenExit(t *testing.T) {
 	argv := backend.spec.Argv
 	env := backend.spec.Env
 	backend.mu.Unlock()
-	if len(argv) != 1 || argv[0] != "/bin/sh" {
+	if len(argv) != 1 || argv[0] != testShell() {
 		t.Errorf("shell 不該帶任何旗標，得到 %v", argv)
 	}
 	if env["TERM"] != "xterm-256color" || env["COLORTERM"] != "truecolor" {
@@ -417,7 +417,7 @@ func TestOpenRefusesWithoutApprovalAndOutsideRoot(t *testing.T) {
 		Approval: GateFunc(func(_, _, _ string) (string, error) { return "", errors.New("expired") }),
 		Backend:  backend,
 		Env:      []string{"SHELL=/bin/sh"},
-		LookPath: func(p string) bool { return p == "/bin/sh" },
+		LookPath: testLookPath,
 	})
 
 	if _, err := svc.Open(OpenRequest{TerminalID: "t1", Approval: "stale"}, func(Event) {}); CodeOf(err) != CodeApprovalBad {
@@ -437,7 +437,7 @@ func TestOpenRefusesWithoutApprovalAndOutsideRoot(t *testing.T) {
 		}),
 		Backend:  backend,
 		Env:      []string{"SHELL=/bin/sh"},
-		LookPath: func(p string) bool { return p == "/bin/sh" },
+		LookPath: testLookPath,
 	})
 	if _, err := svc2.Open(OpenRequest{TerminalID: "t2", Cwd: "/etc", Approval: "ok"}, func(Event) {}); CodeOf(err) != CodeOutsideRoot {
 		t.Errorf("越界應該回 %s，得到 %v", CodeOutsideRoot, err)

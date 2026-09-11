@@ -15,19 +15,39 @@ import (
 // **圍籬有沒有被接上去**，以及回給雲端的形狀對不對 —— 換一個欄位名就是那一頭
 // 讀不到，而畫面上不會有任何錯誤，只會少一列。
 
+// outsideFile / outsideDir 是「絕對而且一定在授權資料夾外面」的路徑。
+//
+// **不能寫死 /etc/passwd。** 在 Windows 上 filepath.IsAbs("/etc/passwd") 是
+// false（那裡的絕對路徑要有磁碟機代號），所以它會被當成相對路徑接到授權資料夾
+// 後面 —— 結果是合法的 root\etc\passwd，寫入成功，而這條測試紅在一個其實
+// 沒有破洞的地方。2026-09-11 第一次在 Windows 跑 CI 時撞到。
+func outsideFile() string {
+	if runtime.GOOS == "windows" {
+		return `C:\Windows\System32\drivers\etc\hosts`
+	}
+	return "/etc/passwd"
+}
+
+func outsideDir() string {
+	if runtime.GOOS == "windows" {
+		return `C:\Windows\System32`
+	}
+	return "/etc"
+}
+
 // 每一個帶路徑的 op 都要過圍籬，沒有例外，也沒有「內部呼叫可以跳過」的捷徑。
 func TestEveryPathOpIsFencedIn(t *testing.T) {
 	ops := []struct {
 		op   string
 		args map[string]any
 	}{
-		{"readFile", map[string]any{"path": "/etc/passwd"}},
-		{"writeFile", map[string]any{"path": "/etc/passwd", "contentBase64": "eA=="}},
-		{"statFile", map[string]any{"path": "/etc/passwd"}},
-		{"listFiles", map[string]any{"path": "/etc"}},
-		{"deleteFile", map[string]any{"path": "/etc/passwd"}},
-		{"ensureDir", map[string]any{"path": "/etc/evil"}},
-		{"exec", map[string]any{"command": "ls", "cwd": "/etc"}},
+		{"readFile", map[string]any{"path": outsideFile()}},
+		{"writeFile", map[string]any{"path": outsideFile(), "contentBase64": "eA=="}},
+		{"statFile", map[string]any{"path": outsideFile()}},
+		{"listFiles", map[string]any{"path": outsideDir()}},
+		{"deleteFile", map[string]any{"path": outsideFile()}},
+		{"ensureDir", map[string]any{"path": filepath.Join(outsideDir(), "evil")}},
+		{"exec", map[string]any{"command": "ls", "cwd": outsideDir()}},
 	}
 	for _, c := range ops {
 		t.Run(c.op, func(t *testing.T) {

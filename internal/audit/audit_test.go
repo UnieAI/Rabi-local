@@ -3,6 +3,7 @@ package audit
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 )
@@ -110,6 +111,14 @@ func TestVerifyOnAMissingFileIsNotAFailure(t *testing.T) {
 func TestAppendReportsWriteFailures(t *testing.T) {
 	// ADR-0002：寫不進稽核就不發票。吞掉這個錯誤，等於讓一個「做了但沒留下
 	// 紀錄」的動作照樣發生 —— 那比沒做成更糟。
+	//
+	// **Windows 上造不出這個情境。** os.Chmod 在那裡只動得了唯讀旗標，對目錄
+	// 不生效，所以寫入照樣成功、斷言照樣紅 —— 紅的是替身，不是規則。規則本身
+	// 在每個平台都有效（Append 回傳的錯誤是同一條路），只是要換一個造法
+	// （ACL）才測得到，而那需要 Windows 專屬的程式碼。
+	if runtime.GOOS == "windows" {
+		t.Skip("Windows 的 chmod 造不出唯讀目錄；這條規則要用 ACL 才測得到")
+	}
 	dir := t.TempDir()
 	f := filepath.Join(dir, "sub", "audit.jsonl")
 	l, err := Open(f)

@@ -3,6 +3,7 @@ package confine
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 )
@@ -169,6 +170,11 @@ func TestNativeWrapBwrap(t *testing.T) {
 }
 
 func TestNativeWrapSandboxExec(t *testing.T) {
+	// sandbox-exec 只存在於 macOS，而這條測試連 profile 檔的權限位元一起斷言
+	// —— 那個概念在 Windows 上不存在（拿到的是 -rw-rw-rw-）。
+	if runtime.GOOS == "windows" {
+		t.Skip("sandbox-exec 是 macOS 的機制，而 0600 在 Windows 上表達不出來")
+	}
 	dir := t.TempDir()
 	c, err := NewNative(KindSandboxExec, NativeOptions{Bin: "/usr/bin/sandbox-exec", Home: "/Users/u", ProfileDir: dir})
 	if err != nil {

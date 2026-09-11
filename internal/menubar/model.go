@@ -29,7 +29,6 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
-	"syscall"
 	"time"
 )
 
@@ -90,21 +89,6 @@ func readJSON(path string, into any) bool {
 		return false
 	}
 	return json.Unmarshal(b, into) == nil
-}
-
-// pidAlive 只問「這個 pid 現在有沒有人」。
-//
-// 刻意不去核對它是不是 Rabi Local：那需要讀 /proc 或叫 ps，而這個小工具每幾秒
-// 就會問一次。核對留給 `ava-local doctor`，它一次就好。
-func pidAlive(pid int) bool {
-	if pid <= 0 {
-		return false
-	}
-	p, err := os.FindProcess(pid)
-	if err != nil {
-		return false
-	}
-	return p.Signal(syscall.Signal(0)) == nil
 }
 
 // Read 把三個檔案讀成一份 Snapshot。任何一個讀不到都不是錯誤 —— 沒配對、

@@ -1,6 +1,7 @@
 package host
 
 import (
+	"encoding/json"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -110,10 +111,17 @@ func TestARealChildCannotSeeTheDaemonsSecrets(t *testing.T) {
 func TestARealExecOutsideTheGrantedFolderIsRefusedBeforeSpawning(t *testing.T) {
 	h, _ := realHost(t)
 	rec := &recorder{}
+	// outsideDir() 而不是寫死 /etc —— 在 Windows 上 /etc 不是絕對路徑，會被
+	// 接到授權資料夾後面，於是這裡拿到的是 spawn_failed 而不是 outside_root
+	// （見 files_test.go 的說明）。
+	args, err := json.Marshal(map[string]any{"command": "ls", "cwd": outsideDir()})
+	if err != nil {
+		t.Fatal(err)
+	}
 	h.Dispatch(relay.Invoke{
 		ID:       "inv-escape",
 		Op:       "exec",
-		Args:     []byte(`{"command":"ls","cwd":"/etc"}`),
+		Args:     args,
 		Approval: goodTicket,
 	}, rec.emit)
 	if code := failureCode(t, rec.final(t)); code != "outside_root" {

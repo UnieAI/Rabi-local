@@ -1,0 +1,10 @@
+# 一個位元組都不要動。
+#
+# git 在 Windows 上預設會把 LF 換成 CRLF，而這個 repo 裡有幾份 testdata 是
+# **被雜湊與長度釘住的**（internal/update/testdata 的 release manifest、
+# internal/redact/testdata 的差分語料）。在 Windows 上 checkout 一次，那幾個檔
+# 就多出幾個位元組，測試會說「大小不符：拿到 74 bytes，manifest 說 71」——
+# 而那不是 bug，是 checkout 改了檔案。2026-09-11 CI 第一次跑 Windows 時撞到。
+#
+# 這個 repo 全部是 Go 與 JSON，沒有任何東西需要 CRLF。
+* -text

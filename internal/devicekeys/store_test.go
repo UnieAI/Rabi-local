@@ -181,6 +181,11 @@ func TestStoreFileIsPrivate(t *testing.T) {
 // 存不下來就**不可以**假裝成功：記憶體裡算數、重開就沒了的信任清單，會讓
 // 使用者以為自己已經在 device-only 了。
 func TestWriteFailureIsNotSilentlyAccepted(t *testing.T) {
+	// 同 audit 那一條：Windows 的 chmod 造不出唯讀目錄（見
+	// internal/audit/audit_test.go）。
+	if runtime.GOOS == "windows" {
+		t.Skip("Windows 的 chmod 造不出唯讀目錄；這條規則要用 ACL 才測得到")
+	}
 	if os.Geteuid() == 0 {
 		t.Skip("root 寫得進唯讀目錄，測不到")
 	}
