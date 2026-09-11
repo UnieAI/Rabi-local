@@ -20,3 +20,14 @@ func testShell() string {
 // testLookPath 只認得 testShell()，這樣「選到哪一支」仍然是被測出來的，
 // 而不是「什麼都說有」。
 func testLookPath(p string) bool { return p == testShell() }
+
+// outsideDir 是一個絕對而且一定在授權資料夾外面的目錄。
+//
+// 同一個理由：filepath.IsAbs("/etc") 在 Windows 是 false，所以那個字串會被當成
+// 相對路徑接到授權資料夾後面 —— 合法、通過、而測試紅在一個其實沒有破洞的地方。
+func outsideDir() string {
+	if runtime.GOOS == "windows" {
+		return `C:\Windows\System32`
+	}
+	return "/etc"
+}

@@ -439,7 +439,9 @@ func TestOpenRefusesWithoutApprovalAndOutsideRoot(t *testing.T) {
 		Env:      []string{"SHELL=/bin/sh"},
 		LookPath: testLookPath,
 	})
-	if _, err := svc2.Open(OpenRequest{TerminalID: "t2", Cwd: "/etc", Approval: "ok"}, func(Event) {}); CodeOf(err) != CodeOutsideRoot {
+	// outsideDir() 而不是寫死 /etc —— 在 Windows 上 /etc 不是絕對路徑，
+	// 會被接到授權資料夾後面變成一個合法的路徑（見 shell_fixture_test.go）。
+	if _, err := svc2.Open(OpenRequest{TerminalID: "t2", Cwd: outsideDir(), Approval: "ok"}, func(Event) {}); CodeOf(err) != CodeOutsideRoot {
 		t.Errorf("越界應該回 %s，得到 %v", CodeOutsideRoot, err)
 	}
 }
