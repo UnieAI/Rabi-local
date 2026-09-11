@@ -63,7 +63,10 @@ jobs:
           # 純 Go，所以五個目標都能在這一台上做完。
           for target in darwin/arm64 darwin/amd64 linux/amd64 linux/arm64 windows/amd64; do
             os="${target%/*}"; arch="${target#*/}"
-            out="dist/rabi-${os}-${arch}"
+            # **rabi-daemon-**，不是 rabi-**。GitHub 的 release asset 名字是
+            # 大小寫不分的，所以 rabi-darwin-arm64 會跟小工具的
+            # Rabi-darwin-arm64 撞名，第二個上傳的直接 422（2026-09-11 撞到）。
+            out="dist/rabi-daemon-${os}-${arch}"
             [ "$os" = windows ] && out="${out}.exe"
             GOOS="$os" GOARCH="$arch" go build -trimpath -ldflags "-s -w" -o "$out" .
           done
@@ -168,6 +171,10 @@ jobs:
           # 應該有辦法核對他拿到的就是我們建的。
           sha256sum * > SHA256SUMS
           ls -la
+      # 這一步需要 repo 的 Actions 設定是「Read and write permissions」。
+      # 設定在 read-only 的時候，job 層的 permissions: contents: write 提不上去，
+      # 而失敗訊息是一句看不出原因的 "Not Found"（2026-09-11 撞到，那一次的
+      # release 是從外面用 PAT 補上去的）。
       - uses: softprops/action-gh-release@v2
         with:
           files: release/*
