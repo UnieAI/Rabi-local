@@ -1,0 +1,135 @@
+[
+  {
+    "name": "好的票",
+    "token": "eyJ2IjoxLCJhbGciOiJobWFjIiwiaW52b2tlSWQiOiJpbnYtMSIsIm1hY2hpbmVJZCI6Im0tMSIsInVzZXJJZCI6InUtMSIsInNlc3Npb25JZCI6InNlcy0xIiwidG9vbCI6ImV4ZWMiLCJwYXlsb2FkSGFzaCI6InBoLTEiLCJpYXQiOjE3ODkwMDAwMDAwMDAsImV4cCI6MTc4OTAwMDEyMDAwMCwibm9uY2UiOiJrOVA5SEg0dHAxME1oMGJCIn0.Oj1mS1X1aAgYIdlEf0Hrn6f6qC_E9lMQswp5sZYqQ_w",
+    "expect": {
+      "machineId": "m-1",
+      "tool": "exec",
+      "payloadHash": "ph-1"
+    },
+    "now": 1789000001000,
+    "ok": true,
+    "reason": null
+  },
+  {
+    "name": "過期",
+    "token": "eyJ2IjoxLCJhbGciOiJobWFjIiwiaW52b2tlSWQiOiJpbnYtMSIsIm1hY2hpbmVJZCI6Im0tMSIsInVzZXJJZCI6InUtMSIsInNlc3Npb25JZCI6InNlcy0xIiwidG9vbCI6ImV4ZWMiLCJwYXlsb2FkSGFzaCI6InBoLTEiLCJpYXQiOjE3ODkwMDAwMDAwMDAsImV4cCI6MTc4OTAwMDEyMDAwMCwibm9uY2UiOiJrOVA5SEg0dHAxME1oMGJCIn0.Oj1mS1X1aAgYIdlEf0Hrn6f6qC_E9lMQswp5sZYqQ_w",
+    "expect": {
+      "machineId": "m-1",
+      "tool": "exec",
+      "payloadHash": "ph-1"
+    },
+    "now": 1789000999000,
+    "ok": false,
+    "reason": "expired"
+  },
+  {
+    "name": "機器不對",
+    "token": "eyJ2IjoxLCJhbGciOiJobWFjIiwiaW52b2tlSWQiOiJpbnYtMSIsIm1hY2hpbmVJZCI6Im0tMSIsInVzZXJJZCI6InUtMSIsInNlc3Npb25JZCI6InNlcy0xIiwidG9vbCI6ImV4ZWMiLCJwYXlsb2FkSGFzaCI6InBoLTEiLCJpYXQiOjE3ODkwMDAwMDAwMDAsImV4cCI6MTc4OTAwMDEyMDAwMCwibm9uY2UiOiJrOVA5SEg0dHAxME1oMGJCIn0.Oj1mS1X1aAgYIdlEf0Hrn6f6qC_E9lMQswp5sZYqQ_w",
+    "expect": {
+      "machineId": "m-2",
+      "tool": "exec",
+      "payloadHash": "ph-1"
+    },
+    "now": 1789000001000,
+    "ok": false,
+    "reason": "machine_mismatch"
+  },
+  {
+    "name": "工具不對",
+    "token": "eyJ2IjoxLCJhbGciOiJobWFjIiwiaW52b2tlSWQiOiJpbnYtMSIsIm1hY2hpbmVJZCI6Im0tMSIsInVzZXJJZCI6InUtMSIsInNlc3Npb25JZCI6InNlcy0xIiwidG9vbCI6ImV4ZWMiLCJwYXlsb2FkSGFzaCI6InBoLTEiLCJpYXQiOjE3ODkwMDAwMDAwMDAsImV4cCI6MTc4OTAwMDEyMDAwMCwibm9uY2UiOiJrOVA5SEg0dHAxME1oMGJCIn0.Oj1mS1X1aAgYIdlEf0Hrn6f6qC_E9lMQswp5sZYqQ_w",
+    "expect": {
+      "machineId": "m-1",
+      "tool": "writeFile",
+      "payloadHash": "ph-1"
+    },
+    "now": 1789000001000,
+    "ok": false,
+    "reason": "tool_mismatch"
+  },
+  {
+    "name": "摘要不對",
+    "token": "eyJ2IjoxLCJhbGciOiJobWFjIiwiaW52b2tlSWQiOiJpbnYtMSIsIm1hY2hpbmVJZCI6Im0tMSIsInVzZXJJZCI6InUtMSIsInNlc3Npb25JZCI6InNlcy0xIiwidG9vbCI6ImV4ZWMiLCJwYXlsb2FkSGFzaCI6InBoLTEiLCJpYXQiOjE3ODkwMDAwMDAwMDAsImV4cCI6MTc4OTAwMDEyMDAwMCwibm9uY2UiOiJrOVA5SEg0dHAxME1oMGJCIn0.Oj1mS1X1aAgYIdlEf0Hrn6f6qC_E9lMQswp5sZYqQ_w",
+    "expect": {
+      "machineId": "m-1",
+      "tool": "exec",
+      "payloadHash": "ph-X"
+    },
+    "now": 1789000001000,
+    "ok": false,
+    "reason": "payload_mismatch"
+  },
+  {
+    "name": "invokeId 不比",
+    "token": "eyJ2IjoxLCJhbGciOiJobWFjIiwiaW52b2tlSWQiOiJpbnYtMSIsIm1hY2hpbmVJZCI6Im0tMSIsInVzZXJJZCI6InUtMSIsInNlc3Npb25JZCI6InNlcy0xIiwidG9vbCI6ImV4ZWMiLCJwYXlsb2FkSGFzaCI6InBoLTEiLCJpYXQiOjE3ODkwMDAwMDAwMDAsImV4cCI6MTc4OTAwMDEyMDAwMCwibm9uY2UiOiJrOVA5SEg0dHAxME1oMGJCIn0.Oj1mS1X1aAgYIdlEf0Hrn6f6qC_E9lMQswp5sZYqQ_w",
+    "expect": {
+      "machineId": "m-1",
+      "tool": "exec",
+      "payloadHash": "ph-1"
+    },
+    "now": 1789000001000,
+    "ok": true,
+    "reason": null
+  },
+  {
+    "name": "invokeId 比且不對",
+    "token": "eyJ2IjoxLCJhbGciOiJobWFjIiwiaW52b2tlSWQiOiJpbnYtMSIsIm1hY2hpbmVJZCI6Im0tMSIsInVzZXJJZCI6InUtMSIsInNlc3Npb25JZCI6InNlcy0xIiwidG9vbCI6ImV4ZWMiLCJwYXlsb2FkSGFzaCI6InBoLTEiLCJpYXQiOjE3ODkwMDAwMDAwMDAsImV4cCI6MTc4OTAwMDEyMDAwMCwibm9uY2UiOiJrOVA5SEg0dHAxME1oMGJCIn0.Oj1mS1X1aAgYIdlEf0Hrn6f6qC_E9lMQswp5sZYqQ_w",
+    "expect": {
+      "machineId": "m-1",
+      "tool": "exec",
+      "payloadHash": "ph-1",
+      "invokeId": "inv-2"
+    },
+    "now": 1789000001000,
+    "ok": false,
+    "reason": "invoke_mismatch"
+  },
+  {
+    "name": "簽章被改",
+    "token": "eyJ2IjoxLCJhbGciOiJobWFjIiwiaW52b2tlSWQiOiJpbnYtMSIsIm1hY2hpbmVJZCI6Im0tMSIsInVzZXJJZCI6InUtMSIsInNlc3Npb25JZCI6InNlcy0xIiwidG9vbCI6ImV4ZWMiLCJwYXlsb2FkSGFzaCI6InBoLTEiLCJpYXQiOjE3ODkwMDAwMDAwMDAsImV4cCI6MTc4OTAwMDEyMDAwMCwibm9uY2UiOiJrOVA5SEg0dHAxME1oMGJCIn0.AAAAS1X1aAgYIdlEf0Hrn6f6qC_E9lMQswp5sZYqQ_w",
+    "expect": {
+      "machineId": "m-1",
+      "tool": "exec",
+      "payloadHash": "ph-1"
+    },
+    "now": 1789000001000,
+    "ok": false,
+    "reason": "bad_signature"
+  },
+  {
+    "name": "內容被改",
+    "token": "eyJ2IjoxLCJhbGciOiJobWFjIiwiaW52b2tlSWQiOiJpbnYtMSIsIm1hY2hpbmVJZCI6Im0tMSIsInVzZXJJZCI6InUtMSIsInNlc3Npb25JZCI6InNlcy0xIiwidG9vbCI6IndyaXRlRmlsZSIsInBheWxvYWRIYXNoIjoicGgtMSIsImlhdCI6MTc4OTAwMDAwMDAwMCwiZXhwIjoxNzg5MDAwMTIwMDAwLCJub25jZSI6Ims5UDlISDR0cDEwTWgwYkIifQ.Oj1mS1X1aAgYIdlEf0Hrn6f6qC_E9lMQswp5sZYqQ_w",
+    "expect": {
+      "machineId": "m-1",
+      "tool": "writeFile",
+      "payloadHash": "ph-1"
+    },
+    "now": 1789000001000,
+    "ok": false,
+    "reason": "bad_signature"
+  },
+  {
+    "name": "不是票",
+    "token": "沒有點",
+    "expect": {
+      "machineId": "m-1",
+      "tool": "exec",
+      "payloadHash": "ph-1"
+    },
+    "now": 1789000001000,
+    "ok": false,
+    "reason": "malformed"
+  },
+  {
+    "name": "空的",
+    "token": "",
+    "expect": {
+      "machineId": "m-1",
+      "tool": "exec",
+      "payloadHash": "ph-1"
+    },
+    "now": 1789000001000,
+    "ok": false,
+    "reason": "malformed"
+  }
+]

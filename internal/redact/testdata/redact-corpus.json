@@ -1,0 +1,418 @@
+{
+  "note": "redact 差分語料。輸入手寫，期望輸出由 runtime/apps/ava-local/src/redact.ts（規格）產生。TS 與 Go 兩側的測試都讀這個檔；改規則就要重跑產生器並檢查 diff。",
+  "cases": [
+    {
+      "name": "empty",
+      "input": "",
+      "text": "",
+      "found": {}
+    },
+    {
+      "name": "openai-key",
+      "input": "OPENAI_KEY is sk-abcdefghijklmnopqrstuvwxyz1234",
+      "text": "OPENAI_KEY is [redacted:openai-key]",
+      "found": {
+        "openai-key": 1
+      }
+    },
+    {
+      "name": "anthropic-key",
+      "input": "key sk-ant-api03-AAAAbbbbCCCCdddd1234",
+      "text": "key [redacted:openai-key]",
+      "found": {
+        "openai-key": 1
+      }
+    },
+    {
+      "name": "github-classic",
+      "input": "token ghp_abcdefghijklmnopqrstuvwxyz0123",
+      "text": "token [redacted:github-token]",
+      "found": {
+        "github-token": 1
+      }
+    },
+    {
+      "name": "github-fine-grained",
+      "input": "use github_pat_11ABCDEFG0abcdefghij_KLMNOPqrstuvwxyz012345",
+      "text": "use [redacted:github-token]",
+      "found": {
+        "github-token": 1
+      }
+    },
+    {
+      "name": "aws-akia",
+      "input": "id AKIAIOSFODNN7EXAMPLE here",
+      "text": "id [redacted:aws-key] here",
+      "found": {
+        "aws-key": 1
+      }
+    },
+    {
+      "name": "aws-asia",
+      "input": "temp ASIAIOSFODNN7EXAMPLE here",
+      "text": "temp [redacted:aws-key] here",
+      "found": {
+        "aws-key": 1
+      }
+    },
+    {
+      "name": "google-key-35",
+      "input": "AIzaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "text": "[redacted:google-key]",
+      "found": {
+        "google-key": 1
+      }
+    },
+    {
+      "name": "google-key-37",
+      "input": "AIzaBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+      "text": "[redacted:google-key]",
+      "found": {
+        "google-key": 1
+      }
+    },
+    {
+      "name": "slack-token",
+      "input": "xoxb-123456789012-abcdefghijkl",
+      "text": "[redacted:slack-token]",
+      "found": {
+        "slack-token": 1
+      }
+    },
+    {
+      "name": "jwt",
+      "input": "auth eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0.dBjftJeZ4CVPmB92K27uhbUJU1p1r_wW1g done",
+      "text": "auth [redacted:jwt] done",
+      "found": {
+        "jwt": 1
+      }
+    },
+    {
+      "name": "private-key-rsa",
+      "input": "before\n-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIB\nAAKCAQEA\n-----END RSA PRIVATE KEY-----\nafter",
+      "text": "before\n[redacted:private-key]\nafter",
+      "found": {
+        "private-key": 1
+      }
+    },
+    {
+      "name": "private-key-ec-and-plain",
+      "input": "-----BEGIN EC PRIVATE KEY-----\nAAAA\n-----END EC PRIVATE KEY-----\nmid\n-----BEGIN PRIVATE KEY-----\nBBBB\n-----END PRIVATE KEY-----",
+      "text": "[redacted:private-key]\nmid\n[redacted:private-key]",
+      "found": {
+        "private-key": 2
+      }
+    },
+    {
+      "name": "url-credentials",
+      "input": "postgres://admin:s3cr3tp4ss@db.example.com:5432/app",
+      "text": "postgres://admin:[redacted:url-credentials]@db.example.com:5432/app",
+      "found": {
+        "url-credentials": 1
+      }
+    },
+    {
+      "name": "url-credentials-upper-scheme",
+      "input": "HTTPS://svc:Pa55word@api.example.com/v1",
+      "text": "HTTPS://svc:[redacted:url-credentials]@api.example.com/v1",
+      "found": {
+        "url-credentials": 1
+      }
+    },
+    {
+      "name": "url-credentials-in-assignment",
+      "input": "DATABASE_URL=postgres://u:p4ssw0rd@h.example.com/db",
+      "text": "DATABASE_URL=postgres://u:[redacted:url-credentials]@h.example.com/db",
+      "found": {
+        "url-credentials": 1
+      }
+    },
+    {
+      "name": "assignment-three-shapes",
+      "input": "password = \"hunter2hunter2\"\napi_key: abcd1234efgh5678\nPASSWD=letmein99",
+      "text": "password = \"[redacted:assignment]\"\napi_key: [redacted:assignment]\nPASSWD=[redacted:assignment]",
+      "found": {
+        "assignment": 3
+      }
+    },
+    {
+      "name": "assignment-single-quote",
+      "input": "client_secret: 'shhhhhh-very-secret'",
+      "text": "client_secret: '[redacted:assignment]'",
+      "found": {
+        "assignment": 1
+      }
+    },
+    {
+      "name": "assignment-dashed-key",
+      "input": "auth-token = Zm9vYmFyYmF6cXV4\naccess_key=AAAABBBBCCCC",
+      "text": "auth-token = [redacted:assignment]\naccess_key=[redacted:assignment]",
+      "found": {
+        "assignment": 2
+      }
+    },
+    {
+      "name": "assignment-too-short-value",
+      "input": "password=abc",
+      "text": "password=abc",
+      "found": {}
+    },
+    {
+      "name": "assignment-over-masked-token",
+      "input": "token: \"ghp_abcdefghijklmnopqrstuvwxyz0123\"",
+      "text": "token: \"[redacted:assignment]\"",
+      "found": {
+        "github-token": 1,
+        "assignment": 1
+      }
+    },
+    {
+      "name": "bearer",
+      "input": "Authorization: Bearer abcdefghijklmnopqrstuvwxyz012345",
+      "text": "Authorization: Bearer [redacted:bearer]",
+      "found": {
+        "bearer": 1
+      }
+    },
+    {
+      "name": "bearer-lowercase",
+      "input": "authorization: bearer abcdefghijklmnopqrstuvwxyz012345",
+      "text": "authorization: bearer [redacted:bearer]",
+      "found": {
+        "bearer": 1
+      }
+    },
+    {
+      "name": "card-spaced",
+      "input": "card 4242 4242 4242 4242",
+      "text": "card [redacted:card-number]",
+      "found": {
+        "card-number": 1
+      }
+    },
+    {
+      "name": "card-dashed",
+      "input": "card 4242-4242-4242-4242 end",
+      "text": "card [redacted:card-number] end",
+      "found": {
+        "card-number": 1
+      }
+    },
+    {
+      "name": "card-plain",
+      "input": "4111111111111111",
+      "text": "[redacted:card-number]",
+      "found": {
+        "card-number": 1
+      }
+    },
+    {
+      "name": "card-luhn-fail",
+      "input": "order 1234567890123456",
+      "text": "order 1234567890123456",
+      "found": {}
+    },
+    {
+      "name": "clean-code",
+      "input": "const sha = 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0';\nimport { useState } from 'react';\n// base64 of a tiny png\nconst png = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';\nSELECT * FROM users WHERE id = 42;",
+      "text": "const sha = 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0';\nimport { useState } from 'react';\n// base64 of a tiny png\nconst png = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';\nSELECT * FROM users WHERE id = 42;",
+      "found": {}
+    },
+    {
+      "name": "clean-uuid",
+      "input": "id 550e8400-e29b-41d4-a716-446655440000 ok",
+      "text": "id 550e8400-e29b-41d4-a716-446655440000 ok",
+      "found": {}
+    },
+    {
+      "name": "clean-prose-cjk",
+      "input": "這份檔案沒有任何祕密，只是一段中文說明。",
+      "text": "這份檔案沒有任何祕密，只是一段中文說明。",
+      "found": {}
+    },
+    {
+      "name": "cjk-around-key",
+      "input": "金鑰是 sk-abcdefghijklmnopqrstuvwxyz1234 請保管好",
+      "text": "金鑰是 [redacted:openai-key] 請保管好",
+      "found": {
+        "openai-key": 1
+      }
+    },
+    {
+      "name": "counts-two-kinds",
+      "input": "sk-abcdefghijklmnopqrstuvwxyz1234 and AKIAIOSFODNN7EXAMPLE",
+      "text": "[redacted:openai-key] and [redacted:aws-key]",
+      "found": {
+        "openai-key": 1,
+        "aws-key": 1
+      }
+    },
+    {
+      "name": "counts-same-kind-twice",
+      "input": "AKIAIOSFODNN7EXAMPLE AKIAJKLMNOPQRSTUVWXY",
+      "text": "[redacted:aws-key] [redacted:aws-key]",
+      "found": {
+        "aws-key": 2
+      }
+    },
+    {
+      "name": "env-file",
+      "input": "PORT=3000\nOPENAI_KEY=sk-abcdefghijklmnopqrstuvwxyz1234\npassword = \"hunter2hunter2\"\nDEBUG=false\n",
+      "text": "PORT=3000\nOPENAI_KEY=[redacted:openai-key]\npassword = \"[redacted:assignment]\"\nDEBUG=false\n",
+      "found": {
+        "openai-key": 1,
+        "assignment": 1
+      }
+    }
+  ],
+  "streams": [
+    {
+      "name": "char-by-char-key",
+      "carry": 256,
+      "chunks": [
+        "k",
+        "e",
+        "y",
+        "=",
+        "s",
+        "k",
+        "-",
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+        "1",
+        "2",
+        "3",
+        "4",
+        "\n"
+      ],
+      "text": "key=[redacted:openai-key]\n",
+      "found": {
+        "openai-key": 1
+      }
+    },
+    {
+      "name": "key-split-in-two",
+      "carry": 256,
+      "chunks": [
+        "KEY=sk-abcdefghijkl",
+        "mnopqrstuvwxyz1234\n"
+      ],
+      "text": "KEY=[redacted:openai-key]\n",
+      "found": {
+        "openai-key": 1
+      }
+    },
+    {
+      "name": "lines-in-order",
+      "carry": 256,
+      "chunks": [
+        "line one\nline ",
+        "two\nline three\n"
+      ],
+      "text": "line one\nline two\nline three\n",
+      "found": {}
+    },
+    {
+      "name": "tail-without-newline",
+      "carry": 256,
+      "chunks": [
+        "tail-without-newline"
+      ],
+      "text": "tail-without-newline",
+      "found": {}
+    },
+    {
+      "name": "tail-is-a-key",
+      "carry": 256,
+      "chunks": [
+        "result: ",
+        "AKIAIOSFODNN7EXAMPLE"
+      ],
+      "text": "result: [redacted:aws-key]",
+      "found": {
+        "aws-key": 1
+      }
+    },
+    {
+      "name": "empty-chunks",
+      "carry": 256,
+      "chunks": [
+        "",
+        "AKIA",
+        "",
+        "IOSFODNN7EXAMPLE",
+        ""
+      ],
+      "text": "[redacted:aws-key]",
+      "found": {
+        "aws-key": 1
+      }
+    },
+    {
+      "name": "long-line-no-newline",
+      "carry": 256,
+      "chunks": [
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+      ],
+      "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+      "found": {}
+    },
+    {
+      "name": "cjk-long-no-newline",
+      "carry": 256,
+      "chunks": [
+        "漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢",
+        "字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字"
+      ],
+      "text": "漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢漢字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字",
+      "found": {}
+    },
+    {
+      "name": "key-straddles-carry-cut",
+      "carry": 256,
+      "chunks": [
+        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx AKIAIOSFO",
+        "DNN7EXAMPLE\n"
+      ],
+      "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx [redacted:aws-key]\n",
+      "found": {
+        "aws-key": 1
+      }
+    },
+    {
+      "name": "carry-too-small-leaks",
+      "carry": 8,
+      "chunks": [
+        "AKIAIOSFO",
+        "DNN7EXAMPLE"
+      ],
+      "text": "AKIAIOSFODNN7EXAMPLE",
+      "found": {}
+    }
+  ]
+}

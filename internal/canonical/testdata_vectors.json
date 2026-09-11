@@ -1,0 +1,101 @@
+[
+  {
+    "name": "空物件",
+    "value": {},
+    "json": "{}",
+    "hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+  },
+  {
+    "name": "key 亂序",
+    "value": {
+      "b": 1,
+      "a": 2,
+      "C": 3,
+      "_": 4
+    },
+    "json": "{\"C\":3,\"_\":4,\"a\":2,\"b\":1}",
+    "hash": "79264b09e7f840c2e1d37b8fe970fd7020b765fe2214cf69465a676582f3ae18"
+  },
+  {
+    "name": "巢狀",
+    "value": {
+      "z": {
+        "y": [
+          3,
+          2,
+          1
+        ],
+        "x": null
+      },
+      "a": true
+    },
+    "json": "{\"a\":true,\"z\":{\"x\":null,\"y\":[3,2,1]}}",
+    "hash": "4dab6fd72ff8e185f7ae5eab80835755543d7f75f951cdfb5c190013ebc782b1"
+  },
+  {
+    "name": "HTML 字元不跳脫",
+    "value": {
+      "q": "a<b>c&d"
+    },
+    "json": "{\"q\":\"a<b>c&d\"}",
+    "hash": "21efa0386f473b5c31ea361d5fe4fa2178631b8796d24431ac1bf7bfb7703987"
+  },
+  {
+    "name": "控制字元",
+    "value": {
+      "s": "a\bb\fc\td\ne\rf"
+    },
+    "json": "{\"s\":\"a\\bb\\fc\\td\\ne\\rf\"}",
+    "hash": "22cc99a6dc1728a39afb5f85ed96d7346443aa43698cf50b00f3c2c5db3b82ef"
+  },
+  {
+    "name": "中文 key 排序",
+    "value": {
+      "機器": 1,
+      "資料夾": 2,
+      "apple": 3,
+      "Zebra": 4
+    },
+    "json": "{\"Zebra\":4,\"apple\":3,\"機器\":1,\"資料夾\":2}",
+    "hash": "10c0f9c5799210993f2fa13e0859f76cdb4744dbc81f4a0f7208828bbfed64f9"
+  },
+  {
+    "name": "emoji 與代理對",
+    "value": {
+      "🍎": 1,
+      "a": 2,
+      "�": 3
+    },
+    "json": "{\"a\":2,\"🍎\":1,\"�\":3}",
+    "hash": "00584cb8e84d1087e054f4678af39b8aa80a5831b9d5e25a7c29d30fdaaa27bb"
+  },
+  {
+    "name": "整數 float",
+    "value": {
+      "n": 3,
+      "m": 3.5,
+      "big": 1234567890
+    },
+    "json": "{\"big\":1234567890,\"m\":3.5,\"n\":3}",
+    "hash": "ba5df97664406041ee488a596d1596cfa50e8dc941d2f1b9d202d70e6c799eed"
+  },
+  {
+    "name": "引號與反斜線",
+    "value": {
+      "p": "C:\\Users\\roy\\\"work\""
+    },
+    "json": "{\"p\":\"C:\\\\Users\\\\roy\\\\\\\"work\\\"\"}",
+    "hash": "aacec13e14692709d6763da6479633b3f83d24628856f77dd6365f175afad065"
+  },
+  {
+    "name": "真的核准主體",
+    "value": {
+      "v": 2,
+      "tool": "exec",
+      "cwd": "/home/roy/work",
+      "command": "rm -rf build && echo <done>"
+    },
+    "json": "{\"command\":\"rm -rf build && echo <done>\",\"cwd\":\"/home/roy/work\",\"tool\":\"exec\",\"v\":2}",
+    "hash": "a3aad39e34175e2f360ebffd1f65b1a7fcc1c886a26c0bba143fdc3282b6fd2d"
+  }
+]

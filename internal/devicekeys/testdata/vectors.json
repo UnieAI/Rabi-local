@@ -1,0 +1,1179 @@
+{
+  "note": "由 desktop/internal/devicekeys/testdata/gen-vectors.mjs 跑 TS 實作產生，請勿手改。",
+  "source": {
+    "device-approval.mjs": "7b0704a007aaeb9b",
+    "device-enrollment.mjs": "0f7331eab325bdd9",
+    "device-ticket.mjs": "a832e4497b685435"
+  },
+  "deviceApprovalTtlMs": 300000,
+  "approval": [
+    {
+      "name": "使用者裝置簽的核准驗得過",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0",
+      "assertion": {
+        "credentialId": "9a96f225-2f71-4b94-8521-f467e28e08a9",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiSlZuUThVdnRpUmpBcFA4QUNYbWs1YWUxRllhOVpOZUJzZFVqQzJ6ZXZNSSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIBJNrtvGICBU5ux0hzeGJ6y2htdTyf64Pxod8bELakpXAiEA8Pkw6C9P86-JDXJX3tc3e6LUbxthI7FucuH-40XZq30"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "9a96f225-2f71-4b94-8521-f467e28e08a9": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJ523Tzn/tkB5mlhfT3zCKYzTm0p3\n5/Sjt4H1IO26fmAZZ0jNEYZmqo7hYksjgg0ibjzDwjqZ6kphpw8lev9U1w==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": true,
+          "invokeId": "act-1"
+        }
+      ]
+    },
+    {
+      "name": "被攻破的 app 用自己的私鑰簽、冒用使用者的 credentialId",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0",
+      "assertion": {
+        "credentialId": "fcbe3de8-d419-4a24-9f48-bc58610497c4",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiSlZuUThVdnRpUmpBcFA4QUNYbWs1YWUxRllhOVpOZUJzZFVqQzJ6ZXZNSSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIH7Sp1Zd6qDTRST9JBAH8jT-noxJdb7Z2jSXJ-uVj-ITAiEAhRhfsMVWemrGSofcHskzb08r4-eU0rCsB9i0MPGc_jA"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "fcbe3de8-d419-4a24-9f48-bc58610497c4": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE8+zeOZhbVYCk4CtockXepyL+3c4L\nhJToct+1zY6d1u3JU4HZrIClmPTeRRs+VnWtuekXoImbdu4pN+b1jDbQGw==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "bad_signature"
+        }
+      ]
+    },
+    {
+      "name": "沒註冊過的憑證一律不認",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0",
+      "assertion": {
+        "credentialId": "4c7bf5f7-a1fe-4444-8d1f-2eb1996ce01d",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiSlZuUThVdnRpUmpBcFA4QUNYbWs1YWUxRllhOVpOZUJzZFVqQzJ6ZXZNSSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEQCIBRbVGy5sSd2h3nxKkZeU2XfmPe6HqHtS42fGUv6ih1ZAiBB4WZ76b1mq_OD54OoNTbLCQC2Rubjs2psMJUFXcfv7Q"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "5bfae9df-9855-45cb-b41c-4b53d5fa04b1": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEydEAUNriiwvQ0/H0MIaRZuSvUyu/\nns0KXa2kX4hxjPbsFlYbxk1fIRLWjOPN2gJz1M+1gaV5FL//et8L+gb/ww==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "unknown_credential"
+        }
+      ]
+    },
+    {
+      "name": "雲端在票上自帶公鑰 —— 不可以被讀到",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0",
+      "assertion": {
+        "credentialId": "74e733c6-7026-4992-8ec0-c85a0b3c2f08",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiSlZuUThVdnRpUmpBcFA4QUNYbWs1YWUxRllhOVpOZUJzZFVqQzJ6ZXZNSSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIGloys73V9u8S3llVG9nvdqcDoff_4gk_cQJ6eknfctuAiEAmbiPZsJhT1SaHjcSPtvbMrpiXXydscUbBtla1S2fPUc",
+        "publicKey": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAETY91G2fUKUWhhDij5P3WH0gTaxnr\nJbaGMpPKdWBxP1ijrKaj0R6PLQ8MZJV+7r20phjp3pOW5LM84CgfRMSTlw==\n-----END PUBLIC KEY-----\n"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "0e8653dd-1ec8-4c0a-a0be-88eaafa9bf58": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE3/y7ptIXLHQtqjuB2OrAGVJjjmVv\nrvBLhW6QYUuS13XIa/8csyNhbC/sDChMbxFLN691WN6kPn3kpm3resWCmg==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "unknown_credential"
+        }
+      ]
+    },
+    {
+      "name": "換了指令就對不上",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0",
+      "assertion": {
+        "credentialId": "e0413603-ebba-4fa6-961f-543d01473bf2",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiSlZuUThVdnRpUmpBcFA4QUNYbWs1YWUxRllhOVpOZUJzZFVqQzJ6ZXZNSSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIQDSDd-NfhpXtENzk5A3v3JiF-vNQ8p_FrOTP4x7fj7lSQIgCGE2lA0-ZXEMUpn7xiBPN-h8vLtkVSbPmDs8wQGjvj0"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-2"
+      },
+      "keys": {
+        "e0413603-ebba-4fa6-961f-543d01473bf2": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQun/OrrnyOlKT9jiIBX5oASSVfEg\nGJqJRdqdoXBVbuChIqK9ISfEbPMJcmpEKCAMoi13JjLhINReOQM+eY8foQ==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "payload_mismatch"
+        }
+      ]
+    },
+    {
+      "name": "拿別處取得的合法 assertion 來用",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0",
+      "assertion": {
+        "credentialId": "33027fd8-6886-4c54-bef1-dde05fe6c6c7",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiNVlpbDU1cUU1cDJ4NktXXyIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEYCIQCVPGMU5mqyHO0Qo503oOE2xvqw3JW_GtGkjc5yg1JQdgIhAKBcOFJgFPAPdIHxV92r5gQeTcmKmAu32OcfnXs1GlFZ"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "33027fd8-6886-4c54-bef1-dde05fe6c6c7": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEB/aTE/xIDhiG/bDV5v6ijhUibSpt\nxTrDHfzWWhiLSwPnTDeoIQkQFRmDnrcPy6Q43KGPO6wYotleXSx/L+gcSg==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "challenge_mismatch"
+        }
+      ]
+    },
+    {
+      "name": "別台機器的票不能用在這一台",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTIiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0",
+      "assertion": {
+        "credentialId": "0624a2cb-3f0a-409c-9326-946b98d723ca",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoidG56c0ZpeXN5NXZNU2dqcmhyNFpkMmdzR29jNDJqWjJRZHBXeG9tVUM4RSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEYCIQDfF3jyceuIkRE68PiK4QDd_aRbhhBRQjjaNmnC1EfFAQIhAO0HFeSxqueMlyLBcVRkBatWidxGnYTUwMOxQJYzgYJE"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "0624a2cb-3f0a-409c-9326-946b98d723ca": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEiXASq12mPlDHptSE+yW6yp09so+t\nqQUfleGQc98DlxAcdbd1I9tccJMs6mv+3xqK9AsTgDJYn1Ck6/+l+bDEjQ==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "wrong_machine"
+        }
+      ]
+    },
+    {
+      "name": "換了工具也對不上",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoid3JpdGVGaWxlIiwicGF5bG9hZEhhc2giOiJwaC0xIiwic2NvcGUiOm51bGwsImlhdCI6MTcwMDAwMDAwMDAwMCwiZXhwIjoxNzAwMDAwMzAwMDAwfQ",
+      "assertion": {
+        "credentialId": "41bd4910-a555-43f4-9e0f-8b711258d6b6",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiUjl1cG1pN3RwZjhaT0loTWZqMGFCem5mdjJmY29MQnlPdmdrd3BIRk1RayIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIH69Tmc0TzYt78O1QkwgZCYw59gN_NkieBy9NSq2OAZiAiEA3Mt-qL3fWn1X0FfNAyIr08yy4U3fsh3Q9lmXu1qWUyY"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "41bd4910-a555-43f4-9e0f-8b711258d6b6": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE4jd2P2ZIkohpGTZzJdKHhwnACw9n\nNjlbo5mjBsc/cGtsV59/D64LMDCUa3g4lnwLbAPv2f7aPJJJjkmFXY2emw==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "wrong_tool"
+        }
+      ]
+    },
+    {
+      "name": "過期的不收",
+      "runs": 1,
+      "now": 3000,
+      "useNonces": false,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjEwMDAsImV4cCI6MjAwMH0",
+      "assertion": {
+        "credentialId": "26b0d62b-8dab-4609-a522-272da9bd3b8b",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiQ1BQLXppSGQwcEFwUjdFOEVrenlqTHFINm00RTVTM2FoQ0gxZHliQ2t0USIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIBljOIt4kIqZQ7CQPwq01N7KNv06wbt7udUuatAcKxXhAiEA-PSPbfOGgPejxt8p3JIdNGDrYYeXz3pN23mB9k7lNo4"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "26b0d62b-8dab-4609-a522-272da9bd3b8b": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEF5quJV3NSJ5lf2F8Rq9PS/Xbaep6\nX0pm2nibZE2Skl1Pv7VDYMHANTWr21tGao9Lo/+tS7yBAlBytyudCHqncA==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "expired"
+        }
+      ]
+    },
+    {
+      "name": "未來的票也不收",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDA2MDAwMDAsImV4cCI6MTcwMDAwMDkwMDAwMH0",
+      "assertion": {
+        "credentialId": "c4de993f-f4c5-406f-98f7-ba834b7992bc",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiYlNhZHJmaGcwOG0wTXJkQVl4c0NXb0FfTlptOHQya0pOVHlkMkhyTl9PWSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEYCIQDo_yW3ddGoX5KIdmQQJPIpLZCinXoRcvDdvqq6GAyp_gIhAPTXmtbjmeqesBjdfXjit71hgnCXUZYIlCwt4F2Juq5v"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "c4de993f-f4c5-406f-98f7-ba834b7992bc": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEx+O11KqHUEKQKz+Qc8q1RhFbyVqs\nXVF9B+W+1chFvVX9m5u/17jPaRYwncwTDPg6dsT5JwF2FKUzApgV26e31A==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "not_yet_valid"
+        }
+      ]
+    },
+    {
+      "name": "使用者不在場（UP 沒亮）不算同意",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0",
+      "assertion": {
+        "credentialId": "3f82fdf3-396b-4a81-81bd-5dad35d6ced2",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwAAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiSlZuUThVdnRpUmpBcFA4QUNYbWs1YWUxRllhOVpOZUJzZFVqQzJ6ZXZNSSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIAHB8lampvlSx21r7lj1IU6FqbJfGT4czJy278sVP0zrAiEAwM8V6Er4tSsmm7dILPl07NUg9AZe_lF__CYw7ht6WzQ"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "3f82fdf3-396b-4a81-81bd-5dad35d6ced2": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE/G6GNGjziPNDN73J8+VdUDOuIg5B\nAtk9Jg/u0Q0mRSUuKbYdI8FQlkRFLr7SIikIDGWoPIrkO6ocpCqrEq5PdA==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "user_not_present"
+        }
+      ]
+    },
+    {
+      "name": "同一張票不能用第二次",
+      "runs": 2,
+      "now": 1700000000000,
+      "useNonces": true,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0",
+      "assertion": {
+        "credentialId": "aa3c0ca5-cf03-4b43-865b-7684e42a26bc",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiSlZuUThVdnRpUmpBcFA4QUNYbWs1YWUxRllhOVpOZUJzZFVqQzJ6ZXZNSSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIQD4RYB5fidIHEiLzfZGUHrlbZgDhs1kr26auomVUFl_1gIgANRhslPo3OVE84DMEculIPNzcP7htw-wZfgp8eBZG3s"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "aa3c0ca5-cf03-4b43-865b-7684e42a26bc": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEKichnqCQZB0yp8NegqLQzJJ0z27D\n5uhyLazD9Ul8fYfHE4BLfIa7m9M/dx+zUHp2r00Qa6LEfUpDsPYPSXrEGg==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": true,
+          "invokeId": "act-1"
+        },
+        {
+          "ok": false,
+          "reason": "replayed"
+        }
+      ]
+    },
+    {
+      "name": "clientDataJSON 不是 JSON",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0",
+      "assertion": {
+        "credentialId": "152e62b9-9aaa-47ce-b32f-d56afe530c88",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "e-S4jeaYryBKU09O",
+        "signature": "MEUCIQDxULUfiP4YRCA48wG1JF8DhnuHeZW6ZY8wOOKulsduwwIgPdaMcnbfXGCavLRhgPoOn4APnKRwd462sAMV1-zEZ1s"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "152e62b9-9aaa-47ce-b32f-d56afe530c88": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEjzcLs0CCeeZoaxE/jrOqfBl6A2sD\nGfJA8ADyk1WZBNNkacvKt4bECSYPc7N0g7NNEv5SCYelHC7NfI8YPZ2Qug==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "client_data_unreadable"
+        }
+      ]
+    },
+    {
+      "name": "註冊儀式的 assertion 不能拿來核准",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0",
+      "assertion": {
+        "credentialId": "f1de4ab9-dfc7-4561-b05b-133c70c1e4a3",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiSlZuUThVdnRpUmpBcFA4QUNYbWs1YWUxRllhOVpOZUJzZFVqQzJ6ZXZNSSJ9",
+        "signature": "MEYCIQDxYYjhFaV6bkXaJEfAHi3CI2-pVzMHWfxenQqNoSAjFwIhAPtegAykG5JwhXJ426JIfV2kFmpJyzccNLOujKdWDRgo"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "f1de4ab9-dfc7-4561-b05b-133c70c1e4a3": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEAA15CB0YY5cBcfwrPPvZE/RCwfVV\npg5ll7GCBGgzTbvDVUGlspDJelT58jeJ9vWwIyLCafcf+duNrFLnIJqzbw==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "wrong_ceremony"
+        }
+      ]
+    },
+    {
+      "name": "簽章是垃圾",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0",
+      "assertion": {
+        "credentialId": "dec271c2-1d30-4d3d-b680-a8c681506d18",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiSlZuUThVdnRpUmpBcFA4QUNYbWs1YWUxRllhOVpOZUJzZFVqQzJ6ZXZNSSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "6YCZ5LiN5piv57C956ug"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "dec271c2-1d30-4d3d-b680-a8c681506d18": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEbpzKZynDmXQqjzqaJL3dGfng13aG\nwhPx0iwMsP+xr4g76/4uuxzkL3LTf800CmQZC09nUEPbjE5iPptcstN7kw==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "bad_signature"
+        }
+      ]
+    },
+    {
+      "name": "authenticatorData 太短",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0",
+      "assertion": {
+        "credentialId": "d3d01103-3822-4da2-a4fe-d391bad90ba1",
+        "authenticatorData": "AAAAAAAAAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiSlZuUThVdnRpUmpBcFA4QUNYbWs1YWUxRllhOVpOZUJzZFVqQzJ6ZXZNSSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEQCIB7EGWs8H6lkfjOncS9w9wluGCwVXCxnrUteZzfii6vlAiA4-Wm5iIB1sxLRS_kOfUluoDEEAyLLaZLe3O0y3ipGnA"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "d3d01103-3822-4da2-a4fe-d391bad90ba1": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEC6mKHMzLVWe6DzDxJwhzwXXCDly4\nkooAFg5F/0ncJXZIgWRo0I44MfpjC2VI1AskoHmjx3tv0ZidO0b4i8D9HA==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "user_not_present"
+        }
+      ]
+    },
+    {
+      "name": "清單上那把不是金鑰",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0",
+      "assertion": {
+        "credentialId": "961f3bd7-2581-4f7b-bc14-f8d1314bdfa9",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiSlZuUThVdnRpUmpBcFA4QUNYbWs1YWUxRllhOVpOZUJzZFVqQzJ6ZXZNSSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEQCIDBUBcDMK8q_ITulgIWQU37NyI3DESyKnLnTBxtDxLGCAiBkHG9K8EQwTJrUFk_LISLU9SpkicKle5bk7IGqivInhQ"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "961f3bd7-2581-4f7b-bc14-f8d1314bdfa9": "-----BEGIN PUBLIC KEY-----\nbm90LWEta2V5\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "bad_key"
+        }
+      ]
+    },
+    {
+      "name": "Ed25519 在 sha256 那條路上用不了",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0",
+      "assertion": {
+        "credentialId": "ebd80b84-d4fd-470b-884e-3670cf2b1e89",
+        "authenticatorData": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiSlZuUThVdnRpUmpBcFA4QUNYbWs1YWUxRllhOVpOZUJzZFVqQzJ6ZXZNSSJ9",
+        "signature": "IOeKaipnr_76HqwjZOe3l2nZcKKG61-pZA4hvyik8nNcvrOMrCL_tBXyG7UHwFkzKMnm_lChYpov9oKVQ4p2AA"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "ebd80b84-d4fd-470b-884e-3670cf2b1e89": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAZR6AwVJjznoeF89V6pWa83mfnPfFm18KZsj5t5MGERY=\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "bad_key"
+        }
+      ]
+    },
+    {
+      "name": "claims 不是合法 base64/JSON",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "%%%不是東西%%%",
+      "assertion": {
+        "credentialId": "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiYXYzOUFrdjBCdDg1Tm9LUTVybWYwaFBvMWNXNTd3ZDdxeHR0bmNEbTVTdyIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIBW9RXsRoeEzNSWdpKAfYcboClG9uKAUCOBgKGI8Dt1tAiEA9_fKt6Ws9vHJxZyTgA6n9pz5KsicRM_-VqhYBLlthQs"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEy5VJju9SBQwKwFNsrOGsyOYPzEmv\nJLsqhmn7RsPL2k+pwYb4v0Qw0RKZE96mZ7q8zk7PFhXVYk56C20z6FzSPQ==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "claims_unreadable"
+        }
+      ]
+    },
+    {
+      "name": "claims 是 JSON 但不是物件",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "NDI",
+      "assertion": {
+        "credentialId": "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiMGVBZ3V2ekp6ZHlGSmZ6ZW1jX1BOdUg0dEEtZzc0anY3ZG5GUTdnN2NUayIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIAzS0JITWFkn_V8kEDSqd_J60aLbLw7bY_oqRQQ2EpTtAiEAsd2nEHQDvl9JVS1zl_2EGkZeK_a1P7tW1gowWc5KVsI"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEy5VJju9SBQwKwFNsrOGsyOYPzEmv\nJLsqhmn7RsPL2k+pwYb4v0Qw0RKZE96mZ7q8zk7PFhXVYk56C20z6FzSPQ==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "claims_unsupported"
+        }
+      ]
+    },
+    {
+      "name": "claims 是 null",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "bnVsbA",
+      "assertion": {
+        "credentialId": "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiQlFxU2MySHhmUzVKLV9DeUxqR0x3bUM3S25ENTFRb1hOdDBuQjFuOGoxTSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCICTnBanMoCX7gHtDx34UqjuYd5Pdfd3ti5OA5vqmfA2BAiEAoQh9CET_whuGoJf1NQvK5NfOEJ-035Iau8bvWKe8NbU"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEy5VJju9SBQwKwFNsrOGsyOYPzEmv\nJLsqhmn7RsPL2k+pwYb4v0Qw0RKZE96mZ7q8zk7PFhXVYk56C20z6FzSPQ==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "claims_unsupported"
+        }
+      ]
+    },
+    {
+      "name": "v 是字串 \"1\"",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJpbnZva2VJZCI6ImFjdC0xIiwibWFjaGluZUlkIjoibS0xIiwidG9vbCI6ImV4ZWMiLCJwYXlsb2FkSGFzaCI6InBoLTEiLCJpYXQiOjE3MDAwMDAwMDAwMDAsInYiOiIxIiwiYWxnIjoid2ViYXV0aG4iLCJleHAiOjE3MDAwMDAwNjAwMDB9",
+      "assertion": {
+        "credentialId": "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoicHcxbmttWFJpc1lBMG9IeHpWcTRwZkk5RVRLRkxKeXFGWmtidDFzV19kUSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIQCqXuCaSeE_50RwWSr14IxyXrH8fDZEqOnTxmKCX1-ZgAIgIF-AZh5ELKMnLF5Ui6UKuYS88d13A7Jt1i1iPNC6jEk"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEy5VJju9SBQwKwFNsrOGsyOYPzEmv\nJLsqhmn7RsPL2k+pwYb4v0Qw0RKZE96mZ7q8zk7PFhXVYk56C20z6FzSPQ==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "claims_unsupported"
+        }
+      ]
+    },
+    {
+      "name": "alg 不是 webauthn",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJpbnZva2VJZCI6ImFjdC0xIiwibWFjaGluZUlkIjoibS0xIiwidG9vbCI6ImV4ZWMiLCJwYXlsb2FkSGFzaCI6InBoLTEiLCJpYXQiOjE3MDAwMDAwMDAwMDAsInYiOjEsImFsZyI6ImhtYWMiLCJleHAiOjE3MDAwMDAwNjAwMDB9",
+      "assertion": {
+        "credentialId": "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiOVE5M1oxa1F0M2Z3X2l5RURrSTlvU2lzUURBN2NnV3VKYW1ZUWwtMEpvMCIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCICsXCVtGFYGCdjJz4f1F8i_GS7aGu2rjtjYqM56_JdBeAiEAmBHdk83k-LmSVd5YYFze3qZsePAa_PvQgImRaOZHKS0"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEy5VJju9SBQwKwFNsrOGsyOYPzEmv\nJLsqhmn7RsPL2k+pwYb4v0Qw0RKZE96mZ7q8zk7PFhXVYk56C20z6FzSPQ==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "claims_unsupported"
+        }
+      ]
+    },
+    {
+      "name": "exp 是字串",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJpbnZva2VJZCI6ImFjdC0xIiwibWFjaGluZUlkIjoibS0xIiwidG9vbCI6ImV4ZWMiLCJwYXlsb2FkSGFzaCI6InBoLTEiLCJpYXQiOjE3MDAwMDAwMDAwMDAsInYiOjEsImFsZyI6IndlYmF1dGhuIiwiZXhwIjoiOTk5OTk5OTk5OTk5OSJ9",
+      "assertion": {
+        "credentialId": "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiMnM3S0NwSGJ6U2ZKR0hlOXcyUG5GRm5RNmlVWnl6cFJrRWE5U3pkTXp2dyIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIAYjZh4wf6z6bUaTTBJr_ihf-jbC6gKv3yr4s50HdDPzAiEAqX-94j2B8MQqKUvI78Dd9rl8_h3ABFP0hr03jVKwsXs"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEy5VJju9SBQwKwFNsrOGsyOYPzEmv\nJLsqhmn7RsPL2k+pwYb4v0Qw0RKZE96mZ7q8zk7PFhXVYk56C20z6FzSPQ==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "expired"
+        }
+      ]
+    },
+    {
+      "name": "exp 大到變成 Infinity",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJpbnZva2VJZCI6ImFjdC0xIiwibWFjaGluZUlkIjoibS0xIiwidG9vbCI6ImV4ZWMiLCJwYXlsb2FkSGFzaCI6InBoLTEiLCJpYXQiOjE3MDAwMDAwMDAwMDAsInYiOjEsImFsZyI6IndlYmF1dGhuIiwiZXhwIjpudWxsfQ",
+      "assertion": {
+        "credentialId": "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiZGZtQjZldzlET1J4Rmh0dnNXTVpjUFlMa1RzNGFGQWJoQ002NjNiZHozSSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIGiJCNXdxt9b4PqjfUT_rfQSHQQDjQI8RnGz2_frmPOvAiEAgRLGOcBRqDFHCY2ltqhn2bc5988a3LaeIoRuQ3dpZdc"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEy5VJju9SBQwKwFNsrOGsyOYPzEmv\nJLsqhmn7RsPL2k+pwYb4v0Qw0RKZE96mZ7q8zk7PFhXVYk56C20z6FzSPQ==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "expired"
+        }
+      ]
+    },
+    {
+      "name": "exp 不存在",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJpbnZva2VJZCI6ImFjdC0xIiwibWFjaGluZUlkIjoibS0xIiwidG9vbCI6ImV4ZWMiLCJwYXlsb2FkSGFzaCI6InBoLTEiLCJpYXQiOjE3MDAwMDAwMDAwMDAsInYiOjEsImFsZyI6IndlYmF1dGhuIn0",
+      "assertion": {
+        "credentialId": "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiUDRNdHlJN3d3MVBSOHVPN1hKY29scGpoeGluc3d0Y0RqMnF6S3VWRUdUTSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEYCIQDyGFhB5j3uCVm6-GzW2DMyab-fudGA1MXuT69k8IpXZgIhAL7PA7Yk5Yx4kh8yahQ0AYejidjRJ6SpzjZXME6Auxhg"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEy5VJju9SBQwKwFNsrOGsyOYPzEmv\nJLsqhmn7RsPL2k+pwYb4v0Qw0RKZE96mZ7q8zk7PFhXVYk56C20z6FzSPQ==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "expired"
+        }
+      ]
+    },
+    {
+      "name": "machineId 是數字",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJpbnZva2VJZCI6ImFjdC0xIiwibWFjaGluZUlkIjoxLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsImlhdCI6MTcwMDAwMDAwMDAwMCwidiI6MSwiYWxnIjoid2ViYXV0aG4iLCJleHAiOjE3MDAwMDAwNjAwMDB9",
+      "assertion": {
+        "credentialId": "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiUEthVDVFU01LVGNPaG82Z3lEWnl2Z05xdXlZMGxmOVhUWHIyMmdvc3V0OCIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIGBfVYweEMshKgtzjPXirlZh8QWNUTWFTa7f9IRk41EXAiEAm2DjDSs4LpxoraxkVIg4lATqGORJqgRj6YaC-nJaKOs"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEy5VJju9SBQwKwFNsrOGsyOYPzEmv\nJLsqhmn7RsPL2k+pwYb4v0Qw0RKZE96mZ7q8zk7PFhXVYk56C20z6FzSPQ==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "wrong_machine"
+        }
+      ]
+    },
+    {
+      "name": "claims 字串被夾入垃圾字元",
+      "runs": 1,
+      "now": 1700000000000,
+      "useNonces": false,
+      "claimsB64": "eyJ2Ijox!!LCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0",
+      "assertion": {
+        "credentialId": "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiSlZuUThVdnRpUmpBcFA4QUNYbWs1YWUxRllhOVpOZUJzZFVqQzJ6ZXZNSSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEQCIFFHFGVcPX1pAewmEHYwJT-PTqKZ97E7h03HpMFqFIqOAiAHIKus5Wz2o_Hg6yQslWSE5505VHLeD6s4lD1n3EtPYQ"
+      },
+      "expect": {
+        "machineId": "m-1",
+        "tool": "exec",
+        "payloadHash": "ph-1"
+      },
+      "keys": {
+        "b9d4cef6-42df-40e3-8cfe-7a5a99aa4130": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEy5VJju9SBQwKwFNsrOGsyOYPzEmv\nJLsqhmn7RsPL2k+pwYb4v0Qw0RKZE96mZ7q8zk7PFhXVYk56C20z6FzSPQ==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": [
+        {
+          "ok": false,
+          "reason": "challenge_mismatch"
+        }
+      ]
+    }
+  ],
+  "enrollment": [
+    {
+      "name": "第一把：人就在那台電腦前面，本機確認就算數",
+      "by": null,
+      "localConfirm": true,
+      "now": 1700000000000,
+      "machineId": "m-1",
+      "enrollment": "eyJ2IjoxLCJvcCI6ImFkZCIsIm1hY2hpbmVJZCI6Im0tMSIsImNyZWRlbnRpYWxJZCI6ImM0MmM2NGU4LWFiOWMtNDY5YS05YzZhLTM5YjAwMDU2ZDI1YiIsInB1YmxpY0tleSI6Ii0tLS0tQkVHSU4gUFVCTElDIEtFWS0tLS0tXG5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVOT2E5MjFneWJpb3FGNHlHdC9HT1E3U3VYeXpwXG54aXBFYVdxTWlGZ1ZOMEtTWWFBeDRjdkxsZ3FQZDJDVTBVYVY5YjdSSXo2M2M0SlIvdVpyUFpRb3BRPT1cbi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLVxuIiwibGFiZWwiOm51bGwsImlhdCI6MTcwMDAwMDAwMDAwMCwiZXhwIjoxNzAwMDAwNjAwMDAwfQ",
+      "keys": {},
+      "result": {
+        "ok": true,
+        "op": "add",
+        "credentialId": "c42c64e8-ab9c-469a-9c6a-39b00056d25b",
+        "label": null
+      }
+    },
+    {
+      "name": "已經有金鑰之後，本機確認不再是捷徑",
+      "by": null,
+      "localConfirm": true,
+      "now": 1700000000000,
+      "machineId": "m-1",
+      "enrollment": "eyJ2IjoxLCJvcCI6ImFkZCIsIm1hY2hpbmVJZCI6Im0tMSIsImNyZWRlbnRpYWxJZCI6IjNlZGI0NDY4LTM2MTAtNDBmNC04MjMxLTQyMjYwZjRmNjA0YyIsInB1YmxpY0tleSI6Ii0tLS0tQkVHSU4gUFVCTElDIEtFWS0tLS0tXG5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVlNldzc3VBbHJkSnY5RHQ0TW9TSUg5aSt2MWlTXG5iYlgxYnZETlRhekxEdkZOQjVpbWdCNzNJaS9mZ1BzdFRya1lvcEZKUHlDQkZLQzc3ODJnT3VWSURnPT1cbi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLVxuIiwibGFiZWwiOm51bGwsImlhdCI6MTcwMDAwMDAwMDAwMCwiZXhwIjoxNzAwMDAwNjAwMDAwfQ",
+      "keys": {
+        "7e429496-79bf-4e6c-8ec8-dbc073e280c9": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEAVbUJ/UezhwrOPKeGveCsn92rmr\nGEvAqhhRG6IkxQLjrGpSWbh9mqglJgkKXhSPyqxM4CQAxCCkGXPs4DxmGg==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": {
+        "ok": false,
+        "reason": "local_confirm_not_allowed_after_first"
+      }
+    },
+    {
+      "name": "雲端自產一把、自己簽自己進來",
+      "by": {
+        "credentialId": "a5bfe2cd-32cf-4df9-bb1d-8f99c0cbd0de",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiNzh4eU9tLXdjUm45bUlfdlhSUWVUSk1tMTdnWUlCQUhVSnlWZFVUUnVjMCIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEQCICQQ7IPRtjg1V8tInEwGw9QaA5NN-f1dRXq8y-i3qAEEAiAA9NXItW3H9EINr4xru6pTrBCDEz05JYT2t7SmpuXCeg"
+      },
+      "localConfirm": false,
+      "now": 1700000000000,
+      "machineId": "m-1",
+      "enrollment": "eyJ2IjoxLCJvcCI6ImFkZCIsIm1hY2hpbmVJZCI6Im0tMSIsImNyZWRlbnRpYWxJZCI6ImE1YmZlMmNkLTMyY2YtNGRmOS1iYjFkLThmOTljMGNiZDBkZSIsInB1YmxpY0tleSI6Ii0tLS0tQkVHSU4gUFVCTElDIEtFWS0tLS0tXG5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVhNW5UTFE2aUM2RGxHSU94eG1DZmR0emgxMmFrXG5EWVZIbEg1SXF1cTNuZWZvQjNZbDlFeFRMM3c5amhWK3ErSDV2VFhpbXZ1WHlsRVNjZ3FkMGNabmF3PT1cbi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLVxuIiwibGFiZWwiOm51bGwsImlhdCI6MTcwMDAwMDAwMDAwMCwiZXhwIjoxNzAwMDAwNjAwMDAwfQ",
+      "keys": {
+        "21bf635d-7cf5-4099-8a2b-8832436507a0": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEgY8scouMwJYkvR2epzKqyQbEYcML\nwK2GdAtbrxasf5zS86Z28wTrV+3v8WGwtdzofT22r2QTx24nt6BgdZcNQQ==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": {
+        "ok": false,
+        "reason": "signer_not_trusted"
+      }
+    },
+    {
+      "name": "拿已信任的 id 但用別的私鑰簽",
+      "by": {
+        "credentialId": "52e5a117-f75f-434b-a47d-b0ef37ed0b58",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiMEtKbDNjMldXTWtYSlp5ZHVMWHpGYUVpaXBaODhkczFuSWMwdWY0SFl6ZyIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEQCIAD4HO0fvaYYXEAVaS3Iy5B3geAIOEtCm9ALiiiFxlGXAiAH5XWL8wf4NB01JT6CL0-bwPa0JRhxXoH06W-is2aJSQ"
+      },
+      "localConfirm": false,
+      "now": 1700000000000,
+      "machineId": "m-1",
+      "enrollment": "eyJ2IjoxLCJvcCI6ImFkZCIsIm1hY2hpbmVJZCI6Im0tMSIsImNyZWRlbnRpYWxJZCI6Ijk2NGM1YzdmLTY0YmUtNGQxMi1iOTgzLTliM2RjNjE1NTYxMyIsInB1YmxpY0tleSI6Ii0tLS0tQkVHSU4gUFVCTElDIEtFWS0tLS0tXG5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVkS2hUbG1wRExRS1JFQm9oTUNja2M1dlQ3WlI5XG4weVF4Mzg3RkFPdzBTVk9scnRoZGI2d3lPQk5ZemV5NjlicHB4TUhocFJjNmoySEs0ckFrN3hKdGtBPT1cbi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLVxuIiwibGFiZWwiOm51bGwsImlhdCI6MTcwMDAwMDAwMDAwMCwiZXhwIjoxNzAwMDAwNjAwMDAwfQ",
+      "keys": {
+        "52e5a117-f75f-434b-a47d-b0ef37ed0b58": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEn7ZWAWabBDWIZjuufWZopz4m4aOR\nXQCZx4aYIzTDc4E2CWZwZvaGdRwDdRBqiUZLmom6JisLiobF2OGSVtwVWg==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": {
+        "ok": false,
+        "reason": "bad_signature"
+      }
+    },
+    {
+      "name": "已信任的裝置可以加第二把",
+      "by": {
+        "credentialId": "0b1ae85a-ffd9-492c-8197-c00de08295b1",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoidkV2dFNqTVNhS0QtQ3ZQQVIzd0dnUW9QZ2d1UF9Wak5jeTBiekdMMUpiNCIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIQDYsn10HK_EO3aNFr-CvCeuxTPPUccLBtBRaZ1_TThkPwIgYZGSOJ6H8vWZnXYN0uSO2T02QQs7pFOqQQ5kCMF8qyk"
+      },
+      "localConfirm": false,
+      "now": 1700000000000,
+      "machineId": "m-1",
+      "enrollment": "eyJ2IjoxLCJvcCI6ImFkZCIsIm1hY2hpbmVJZCI6Im0tMSIsImNyZWRlbnRpYWxJZCI6ImM1ZmNhYWNkLTY5NTEtNDRhZi04OTM3LTlhMzY4NjM0NWVkZSIsInB1YmxpY0tleSI6Ii0tLS0tQkVHSU4gUFVCTElDIEtFWS0tLS0tXG5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUV3WWFqcVo5UXl5bXdOcUhSYm5kU1V0ZUlTcHM2XG5VSFVJdUdMaE1XZjhFWEdHd09UWFNzbkZvUVl4NnZ4dnVxVFBsaUpBTnBYZ3FLUk51NmM1clFzek1nPT1cbi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLVxuIiwibGFiZWwiOiLmiYvmqZ8iLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDYwMDAwMH0",
+      "keys": {
+        "0b1ae85a-ffd9-492c-8197-c00de08295b1": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEAIB8NILvbKP0Tezmi1xoQ4oEGnyq\nfXmg6bq6OodSsd6Y3+A5JBgk/XPoLFjJ1fwvQOksUvxKFXuD2UJ3vTbnSA==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": {
+        "ok": true,
+        "op": "add",
+        "credentialId": "c5fcaacd-6951-44af-8937-9a3686345ede",
+        "label": "手機"
+      }
+    },
+    {
+      "name": "不可以自己簽自己進來",
+      "by": {
+        "credentialId": "38268715-b2eb-4659-8478-7a678f343f56",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiWUY3LVVFX2JOVWJ2aXBDaUcwV054ZUs3YmpWVWZYOVNyWGF5bnRRZXZ4NCIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEQCIHbDb5T4H9eh_0vWSRxXaDer4CUWoSVQKl-xbIGqStDvAiBJO5xzisq8fjy9KrRHvXSn8ccFan-pB3h_4a-kydQ7qg"
+      },
+      "localConfirm": false,
+      "now": 1700000000000,
+      "machineId": "m-1",
+      "enrollment": "eyJ2IjoxLCJvcCI6ImFkZCIsIm1hY2hpbmVJZCI6Im0tMSIsImNyZWRlbnRpYWxJZCI6IjM4MjY4NzE1LWIyZWItNDY1OS04NDc4LTdhNjc4ZjM0M2Y1NiIsInB1YmxpY0tleSI6Ii0tLS0tQkVHSU4gUFVCTElDIEtFWS0tLS0tXG5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUUxWVRzei9yS3p1ZmZyQVFzbTZubHZFOVd2VkpIXG5KZ1VUbWFuR0hvaGkzeGV1R3dkMnhwcFE2dWFkUHlBUDdyanZwNzM5U3g4Vm9Idi9UMmJQRVFVYmpnPT1cbi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLVxuIiwibGFiZWwiOm51bGwsImlhdCI6MTcwMDAwMDAwMDAwMCwiZXhwIjoxNzAwMDAwNjAwMDAwfQ",
+      "keys": {
+        "38268715-b2eb-4659-8478-7a678f343f56": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1YTsz/rKzuffrAQsm6nlvE9WvVJH\nJgUTmanGHohi3xeuGwd2xppQ6uadPyAP7rjvp739Sx8VoHv/T2bPEQUbjg==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": {
+        "ok": false,
+        "reason": "self_signed"
+      }
+    },
+    {
+      "name": "撤銷走本機確認不算數",
+      "by": null,
+      "localConfirm": true,
+      "now": 1700000000000,
+      "machineId": "m-1",
+      "enrollment": "eyJ2IjoxLCJvcCI6InJlbW92ZSIsIm1hY2hpbmVJZCI6Im0tMSIsImNyZWRlbnRpYWxJZCI6ImIxY2M3MDg5LWE3ZDktNDVkMS1hMWRjLWMzY2JiZTgxMzgxOSIsInB1YmxpY0tleSI6bnVsbCwibGFiZWwiOm51bGwsImlhdCI6MTcwMDAwMDAwMDAwMCwiZXhwIjoxNzAwMDAwNjAwMDAwfQ",
+      "keys": {
+        "d3ab2847-a9ef-4cd2-965a-60335958b2b9": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE+OdK2HBgWbT+jP2YhoYZ+1dkOpoT\n1fzljLJ8CpInSHnaDPIdEV9TZGgONQaw/R/oEMTTJDeKIHWpJxINkPldeQ==\n-----END PUBLIC KEY-----\n",
+        "b1cc7089-a7d9-45d1-a1dc-c3cbbe813819": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEzX/4sntseIsQh0obOysBM8Tdhlbc\nBWj8pa6ImGHzjZRYdm5bGQAWRmGzqqMMVv/4rwVpTnzxjJjYPF3ovh+g5A==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": {
+        "ok": false,
+        "reason": "local_confirm_not_allowed_after_first"
+      }
+    },
+    {
+      "name": "撤銷由已信任的裝置簽就算數",
+      "by": {
+        "credentialId": "d3ab2847-a9ef-4cd2-965a-60335958b2b9",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiNk1VZFlKZTFFZkw3ZTViaUExQ24wUEZqcF8xWHpocWJXZUhucVV3RUpIbyIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIGnalSc9IeYuivj5txImiFwtF7YyB-SrJHHh9dYbe4jEAiEAproEknuzC9F-CyDCnhyizYAH-CrQtvBKLkKUt6cJz5g"
+      },
+      "localConfirm": false,
+      "now": 1700000000000,
+      "machineId": "m-1",
+      "enrollment": "eyJ2IjoxLCJvcCI6InJlbW92ZSIsIm1hY2hpbmVJZCI6Im0tMSIsImNyZWRlbnRpYWxJZCI6ImIxY2M3MDg5LWE3ZDktNDVkMS1hMWRjLWMzY2JiZTgxMzgxOSIsInB1YmxpY0tleSI6bnVsbCwibGFiZWwiOm51bGwsImlhdCI6MTcwMDAwMDAwMDAwMCwiZXhwIjoxNzAwMDAwNjAwMDAwfQ",
+      "keys": {
+        "d3ab2847-a9ef-4cd2-965a-60335958b2b9": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE+OdK2HBgWbT+jP2YhoYZ+1dkOpoT\n1fzljLJ8CpInSHnaDPIdEV9TZGgONQaw/R/oEMTTJDeKIHWpJxINkPldeQ==\n-----END PUBLIC KEY-----\n",
+        "b1cc7089-a7d9-45d1-a1dc-c3cbbe813819": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEzX/4sntseIsQh0obOysBM8Tdhlbc\nBWj8pa6ImGHzjZRYdm5bGQAWRmGzqqMMVv/4rwVpTnzxjJjYPF3ovh+g5A==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": {
+        "ok": true,
+        "op": "remove",
+        "credentialId": "b1cc7089-a7d9-45d1-a1dc-c3cbbe813819",
+        "label": null
+      }
+    },
+    {
+      "name": "一把都沒有的時候，本機確認只能用來 add",
+      "by": null,
+      "localConfirm": true,
+      "now": 1700000000000,
+      "machineId": "m-1",
+      "enrollment": "eyJ2IjoxLCJvcCI6InJlbW92ZSIsIm1hY2hpbmVJZCI6Im0tMSIsImNyZWRlbnRpYWxJZCI6IjcwZTEwMzc2LWNmZWMtNDMyMC04MDYxLTY0MDE0NTQwNDMzZCIsInB1YmxpY0tleSI6bnVsbCwibGFiZWwiOm51bGwsImlhdCI6MTcwMDAwMDAwMDAwMCwiZXhwIjoxNzAwMDAwNjAwMDAwfQ",
+      "keys": {},
+      "result": {
+        "ok": false,
+        "reason": "local_confirm_add_only"
+      }
+    },
+    {
+      "name": "不可以撤到一把都不剩",
+      "by": {
+        "credentialId": "8d3ebd27-7221-4241-8fc9-fb46d069d63c",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoicUhXM0J4bHEwbVZPNmdWQ28zM1Fnel9IaDh6SEpTd2I5YjZiZ0x4cUJsTSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEYCIQC78fi_pti3hDSyUijt6xwEcujVr9XRTskSa0Cwjf2sfgIhAM8R1QEMqhzaBN4nnYQ2OYCwXwOdCe55RMK_j2Zc1wqY"
+      },
+      "localConfirm": false,
+      "now": 1700000000000,
+      "machineId": "m-1",
+      "enrollment": "eyJ2IjoxLCJvcCI6InJlbW92ZSIsIm1hY2hpbmVJZCI6Im0tMSIsImNyZWRlbnRpYWxJZCI6IjhkM2ViZDI3LTcyMjEtNDI0MS04ZmM5LWZiNDZkMDY5ZDYzYyIsInB1YmxpY0tleSI6bnVsbCwibGFiZWwiOm51bGwsImlhdCI6MTcwMDAwMDAwMDAwMCwiZXhwIjoxNzAwMDAwNjAwMDAwfQ",
+      "keys": {
+        "8d3ebd27-7221-4241-8fc9-fb46d069d63c": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE+yk5vqMc6boPKxfk85Bb5/PoMi/E\nLhahsy7wjLUL2mPSUuFVd/u2JJvuKmEzNuHiXS95Or5lBc1mJZEPzID6gA==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": {
+        "ok": false,
+        "reason": "would_leave_none"
+      }
+    },
+    {
+      "name": "別台機器的註冊請求不算數",
+      "by": null,
+      "localConfirm": true,
+      "now": 1700000000000,
+      "machineId": "m-1",
+      "enrollment": "eyJ2IjoxLCJvcCI6ImFkZCIsIm1hY2hpbmVJZCI6Im0tMiIsImNyZWRlbnRpYWxJZCI6IjMwMTdkMmM2LTg0ODEtNDNiOC05MGQ1LTJiMzg4NWIzYjg5MiIsInB1YmxpY0tleSI6Ii0tLS0tQkVHSU4gUFVCTElDIEtFWS0tLS0tXG5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUUvbzl0Zm5ZSi9XRUtyMEJGV2lFMXFkdHFrazllXG53cWx6N2c5cXRBQW5Na29PdlFxL3VtQXBTcjdYTmIvU3pDZTNHa1U1MHZzMCt3dC9FVUVxYmYzWHp3PT1cbi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLVxuIiwibGFiZWwiOm51bGwsImlhdCI6MTcwMDAwMDAwMDAwMCwiZXhwIjoxNzAwMDAwNjAwMDAwfQ",
+      "keys": {},
+      "result": {
+        "ok": false,
+        "reason": "wrong_machine"
+      }
+    },
+    {
+      "name": "沒有簽也沒有本機確認",
+      "by": null,
+      "localConfirm": false,
+      "now": 1700000000000,
+      "machineId": "m-1",
+      "enrollment": "eyJ2IjoxLCJvcCI6ImFkZCIsIm1hY2hpbmVJZCI6Im0tMSIsImNyZWRlbnRpYWxJZCI6IjcwNWMyOTY0LTVjMWYtNGU2NS04MmM0LTQzMWY3YTU0NWY1NSIsInB1YmxpY0tleSI6Ii0tLS0tQkVHSU4gUFVCTElDIEtFWS0tLS0tXG5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUV0aEdmTVVsOE8rNldrTEdCTFZWTmRkOUxlQUJNXG55UlFRWEgxN1RYYjlNckQxSGV5aTZONzNHUzRsSmJ3ZnlHb3U3bisveXNoVnBzRzdLbmJMYVovQmtnPT1cbi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLVxuIiwibGFiZWwiOm51bGwsImlhdCI6MTcwMDAwMDAwMDAwMCwiZXhwIjoxNzAwMDAwNjAwMDAwfQ",
+      "keys": {},
+      "result": {
+        "ok": false,
+        "reason": "unsigned"
+      }
+    },
+    {
+      "name": "註冊請求過期",
+      "by": null,
+      "localConfirm": true,
+      "now": 3000,
+      "machineId": "m-1",
+      "enrollment": "eyJ2IjoxLCJvcCI6ImFkZCIsIm1hY2hpbmVJZCI6Im0tMSIsImNyZWRlbnRpYWxJZCI6ImZhY2I1MDRkLTZjMmEtNDNiMi1iNWZkLTg3MmY5ODg4NWZhZCIsInB1YmxpY0tleSI6Ii0tLS0tQkVHSU4gUFVCTElDIEtFWS0tLS0tXG5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVkQUhiN0xuZmhWY1Brakd0Q3QrNUFLT3JCRDhiXG4zSGFOL2RnVGE3T2VNZy9vVG94Uk93anpaVngrd0JKenVQQ2luVzBvZjNHQi80eWFKNHRaYis2WURnPT1cbi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLVxuIiwibGFiZWwiOm51bGwsImlhdCI6MTAwMCwiZXhwIjoyMDAwfQ",
+      "keys": {},
+      "result": {
+        "ok": false,
+        "reason": "expired"
+      }
+    },
+    {
+      "name": "by 是空物件，不可以被當成本機確認",
+      "by": {
+        "credentialId": "",
+        "authenticatorData": "",
+        "clientDataJSON": "",
+        "signature": ""
+      },
+      "localConfirm": true,
+      "now": 1700000000000,
+      "machineId": "m-1",
+      "enrollment": "eyJ2IjoxLCJvcCI6ImFkZCIsIm1hY2hpbmVJZCI6Im0tMSIsImNyZWRlbnRpYWxJZCI6ImZlMWE1Y2I0LThhOWEtNDgyYy1hZDJhLWZkNmQ2ZDMxNWJhNCIsInB1YmxpY0tleSI6Ii0tLS0tQkVHSU4gUFVCTElDIEtFWS0tLS0tXG5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVqV29MRmkzYys2S2EwczdOd0N1MFUvMHJmR1hzXG5ib2RyTm1vMzhFaW1nOTlnUnVTSHF5WlAzUG54aytCZVZzWFRLelFJNGh6UXJsZDdxcWp6YzZ1L0pBPT1cbi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLVxuIiwibGFiZWwiOm51bGwsImlhdCI6MTcwMDAwMDAwMDAwMCwiZXhwIjoxNzAwMDAwNjAwMDAwfQ",
+      "keys": {},
+      "result": {
+        "ok": false,
+        "reason": "signer_not_trusted"
+      }
+    },
+    {
+      "name": "簽的是別的請求（challenge 對不上）",
+      "by": {
+        "credentialId": "c046f7d0-6388-476b-86e8-5b2fed609df5",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoicXFLNElXRFhaY2lHNE9fUmIzbmY5VGQyODdHeUZxNnV1V0E1MzdES05NZyIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIA0UVZFA1f7oNNegM8vAaQMw3ro8GZSY7TOXwhLlUzo9AiEA4klxqs9vuwbRJ2yaAHpb2NEecxABeIMsef5_U_slDjs"
+      },
+      "localConfirm": false,
+      "now": 1700000000000,
+      "machineId": "m-1",
+      "enrollment": "eyJ2IjoxLCJvcCI6ImFkZCIsIm1hY2hpbmVJZCI6Im0tMSIsImNyZWRlbnRpYWxJZCI6IjFmYzFmMzViLTgyYjUtNDAzYS04YzFmLTc2NjNhYzM4YzE5MyIsInB1YmxpY0tleSI6Ii0tLS0tQkVHSU4gUFVCTElDIEtFWS0tLS0tXG5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVSTHFsWGlqOHJXMVVrODIrbElOcEFaRCsxeE1YXG5VcG1WaXdDSFFJRHV5UVZjU1FxUCtqaFNKbnQvZ2taN3VVNmgxUEtWMTZERzh6LzNpUHZGOWdNSStBPT1cbi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLVxuIiwibGFiZWwiOm51bGwsImlhdCI6MTcwMDAwMDAwMDAwMCwiZXhwIjoxNzAwMDAwNjAwMDAwfQ",
+      "keys": {
+        "c046f7d0-6388-476b-86e8-5b2fed609df5": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEHonDfgyc4on9axdVIRTRkjTK1vpf\ne8f8JGLMNGo1e0niajJFE4u+hXs4UUbzqje0gbAXDUNIhDKstwV9F3inag==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": {
+        "ok": false,
+        "reason": "challenge_mismatch"
+      }
+    },
+    {
+      "name": "簽的人不在場（UP 沒亮）",
+      "by": {
+        "credentialId": "c2a1a2fa-a8b4-4d66-8ce1-75d071bf19c8",
+        "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwAAAAAAA",
+        "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiSWFyd2xPanI4dVdnN2FSZjhJQ2xPbl9wZU9sSktoZm51bWlBcUNuSXNIdyIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+        "signature": "MEUCIHYdFlRaIsZNv4dbuB0Cnp2begPPt_4WAeX8svvNWopxAiEAk1G-fo5BxeGLw8DuBCb5pnhdVIHTghuOhrc9CSVuL8Q"
+      },
+      "localConfirm": false,
+      "now": 1700000000000,
+      "machineId": "m-1",
+      "enrollment": "eyJ2IjoxLCJvcCI6ImFkZCIsIm1hY2hpbmVJZCI6Im0tMSIsImNyZWRlbnRpYWxJZCI6IjYxZTFiNjk3LTY1MzMtNDdhMy04NzhkLTk5YzFmYzgzYmQ1ZiIsInB1YmxpY0tleSI6Ii0tLS0tQkVHSU4gUFVCTElDIEtFWS0tLS0tXG5NRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVVOUJlbHNoenlUalRuQ2h0OW92K1VGUHg1ZGdIXG4xRVp3Q2lTaTQwV1FNc0d5R1lvbGtPSnhZWlNBc0NWdzFiakhNTGZvY2wyenNRdW1BMnU5cVhYVTl3PT1cbi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLVxuIiwibGFiZWwiOm51bGwsImlhdCI6MTcwMDAwMDAwMDAwMCwiZXhwIjoxNzAwMDAwNjAwMDAwfQ",
+      "keys": {
+        "c2a1a2fa-a8b4-4d66-8ce1-75d071bf19c8": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJCJdYoThE7kOLsHtfkxmOMShOjuo\nMVIxl79cKjrXz6vlkY9bEUr1ORSjrygRiFZLUtkkdpmBxDk8ETmwbnY2pw==\n-----END PUBLIC KEY-----\n"
+      },
+      "result": {
+        "ok": false,
+        "reason": "user_not_present"
+      }
+    },
+    {
+      "name": "註冊請求讀不出來",
+      "by": null,
+      "localConfirm": true,
+      "now": 1700000000000,
+      "machineId": "m-1",
+      "enrollment": "%%%",
+      "keys": {},
+      "result": {
+        "ok": false,
+        "reason": "unreadable"
+      }
+    },
+    {
+      "name": "註冊請求版本不對",
+      "by": null,
+      "localConfirm": true,
+      "now": 1700000000000,
+      "machineId": "m-1",
+      "enrollment": "eyJ2IjoyLCJvcCI6ImFkZCIsIm1hY2hpbmVJZCI6Im0tMSIsImNyZWRlbnRpYWxJZCI6IngiLCJleHAiOjE3MDAwMDAwMDEwMDB9",
+      "keys": {},
+      "result": {
+        "ok": false,
+        "reason": "unsupported"
+      }
+    }
+  ],
+  "ticket": [
+    {
+      "name": "一張好的裝置票",
+      "token": "ava1d.eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0.eyJjcmVkZW50aWFsSWQiOiJjOTA4YTQzNC04ODRkLTRkY2MtOTI1ZC05YTM3MjIzMmM5NzEiLCJhdXRoZW50aWNhdG9yRGF0YSI6IkNhTzFpX3hfb0FMZ29nTjg0TEN5Z0h1d0JjZnp1UldQZWFPY1liWktzZ3dCQUFBQUFBIiwiY2xpZW50RGF0YUpTT04iOiJleUowZVhCbElqb2lkMlZpWVhWMGFHNHVaMlYwSWl3aVkyaGhiR3hsYm1kbElqb2lTbFp1VVRoVmRuUnBVbXBCY0ZBNFFVTlliV3MxWVdVeFJsbGhPVnBPWlVKelpGVnFReko2WlhaTlNTSXNJbTl5YVdkcGJpSTZJbWgwZEhCek9pOHZZV2RsYm5RdVpHVjJMblZ1YVdWaGFTNWpiMjBpZlEiLCJzaWduYXR1cmUiOiJNRVVDSVFDSm5oeDNndHFkd0llbmZOdUtzTEdXUnpLTF84MFBvRDRTSzRXdHZseUpfZ0lnZmV1Z2hxX3Q1R3NleUZ1VUNJLWNMcXhIVTZ3RE5VRnlxTG1WdEFpODBqTSJ9",
+      "result": {
+        "isDeviceTicket": true,
+        "parsed": {
+          "claimsB64": "eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0",
+          "assertion": {
+            "credentialId": "c908a434-884d-4dcc-925d-9a372232c971",
+            "authenticatorData": "CaO1i_x_oALgogN84LCygHuwBcfzuRWPeaOcYbZKsgwBAAAAAA",
+            "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiSlZuUThVdnRpUmpBcFA4QUNYbWs1YWUxRllhOVpOZUJzZFVqQzJ6ZXZNSSIsIm9yaWdpbiI6Imh0dHBzOi8vYWdlbnQuZGV2LnVuaWVhaS5jb20ifQ",
+            "signature": "MEUCIQCJnhx3gtqdwIenfNuKsLGWRzKL_80PoD4SK4WtvlyJ_gIgfeughq_t5GseyFuUCI-cLqxHU6wDNUFyqLmVtAi80jM"
+          }
+        }
+      }
+    },
+    {
+      "name": "HMAC 票不是裝置票（前綴撞不到）",
+      "token": "eyJ2IjoxLCJhbGciOiJobWFjIiwiaW52b2tlSWQiOiJhY3QtMSIsIm1hY2hpbmVJZCI6Im0tMSIsInVzZXJJZCI6bnVsbCwic2Vzc2lvbklkIjpudWxsLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsImlhdCI6MTc4OTE0MTI3MzE4MywiZXhwIjoxNzg5MTQxMzkzMTgzLCJub25jZSI6IlUzUWk4Y3ZoTGRXTlE1TFAifQ.QjfomdISdJDbUME94uP1ACFQL4wICRpr6BTqn6dXjOs",
+      "result": {
+        "isDeviceTicket": false,
+        "parsed": null
+      }
+    },
+    {
+      "name": "空字串",
+      "token": "",
+      "result": {
+        "isDeviceTicket": false,
+        "parsed": null
+      }
+    },
+    {
+      "name": "只有前綴",
+      "token": "ava1d.",
+      "result": {
+        "isDeviceTicket": true,
+        "parsed": null
+      }
+    },
+    {
+      "name": "沒有第二個點",
+      "token": "ava1d.abcdef",
+      "result": {
+        "isDeviceTicket": true,
+        "parsed": null
+      }
+    },
+    {
+      "name": "點在最後",
+      "token": "ava1d.abcdef.",
+      "result": {
+        "isDeviceTicket": true,
+        "parsed": null
+      }
+    },
+    {
+      "name": "assertion 不是 JSON",
+      "token": "ava1d.eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0.%%%",
+      "result": {
+        "isDeviceTicket": true,
+        "parsed": null
+      }
+    },
+    {
+      "name": "assertion 是陣列",
+      "token": "ava1d.eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0.W10",
+      "result": {
+        "isDeviceTicket": true,
+        "parsed": null
+      }
+    },
+    {
+      "name": "assertion 少一個欄位",
+      "token": "ava1d.eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0.eyJjcmVkZW50aWFsSWQiOiJhIiwiYXV0aGVudGljYXRvckRhdGEiOiJiIiwiY2xpZW50RGF0YUpTT04iOiJjIn0",
+      "result": {
+        "isDeviceTicket": true,
+        "parsed": null
+      }
+    },
+    {
+      "name": "assertion 的欄位是空字串",
+      "token": "ava1d.eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0.eyJjcmVkZW50aWFsSWQiOiJhIiwiYXV0aGVudGljYXRvckRhdGEiOiJiIiwiY2xpZW50RGF0YUpTT04iOiJjIiwic2lnbmF0dXJlIjoiIn0",
+      "result": {
+        "isDeviceTicket": true,
+        "parsed": null
+      }
+    },
+    {
+      "name": "assertion 的欄位不是字串",
+      "token": "ava1d.eyJ2IjoxLCJhbGciOiJ3ZWJhdXRobiIsImludm9rZUlkIjoiYWN0LTEiLCJtYWNoaW5lSWQiOiJtLTEiLCJ0b29sIjoiZXhlYyIsInBheWxvYWRIYXNoIjoicGgtMSIsInNjb3BlIjpudWxsLCJpYXQiOjE3MDAwMDAwMDAwMDAsImV4cCI6MTcwMDAwMDMwMDAwMH0.eyJjcmVkZW50aWFsSWQiOjEsImF1dGhlbnRpY2F0b3JEYXRhIjoiYiIsImNsaWVudERhdGFKU09OIjoiYyIsInNpZ25hdHVyZSI6ImQifQ",
+      "result": {
+        "isDeviceTicket": true,
+        "parsed": null
+      }
+    }
+  ]
+}
