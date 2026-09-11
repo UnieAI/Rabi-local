@@ -138,6 +138,19 @@ jobs:
             # heredoc 為了對齊縮排了，plist 不能有前導空白。
             sed -i '' 's/^          //' "$app/Contents/Info.plist"
             ditto -c -k --keepParent "$app" "Rabi-darwin-${arch}.app.zip"
+
+            # .dmg —— 交給人的時候這個才是 macOS 的說法：掛載、把 Rabi 拖進
+            # Applications、退出。zip 解開之後留下的是一個躺在下載資料夾裡的
+            # app，沒有人會記得把它搬走。
+            #
+            # **但 dmg 不會讓 Gatekeeper 閉嘴。** 沒有簽名與公證的 app，不管裝在
+            # dmg 還是 zip 裡，第一次打開都會被擋。那件事要的是 Developer ID
+            # 憑證加 notarytool，不是換一種包裝。
+            staging="dmg-${arch}"
+            rm -rf "$staging" && mkdir -p "$staging"
+            cp -R "$app" "$staging/"
+            ln -s /Applications "$staging/Applications"
+            hdiutil create -volname "Rabi" -srcfolder "$staging" -ov -format UDZO "Rabi-darwin-${arch}.dmg"
           done
           ls -la Rabi-*
       - uses: actions/upload-artifact@v4
